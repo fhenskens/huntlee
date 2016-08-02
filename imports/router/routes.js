@@ -1,6 +1,6 @@
 import Home from '../ui/pages/Home.jsx';
-import About from '../ui/pages/About.jsx';
 import NotFound from '../ui/pages/NotFound.jsx';
+import Lots from '../ui/components/Lots.jsx';
 
 const routes = [
   {
@@ -8,9 +8,10 @@ const routes = [
     component: Home
   },
   {
-    path: '/about',
-    component: About
-  }, {
+    path: '/lots',
+    component: Lots
+  },
+  {
     path: '*',
     component: NotFound
   }
