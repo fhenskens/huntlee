@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 
 
-export default class LotView extends Component {
+export default class LotListItem extends Component {
   render() {
     return (
       <li className="collection-item avatar">
@@ -17,6 +17,6 @@ export default class LotView extends Component {
   }
 }
 
-LotView.propTypes = {
+LotListItem.propTypes = {
   lot: PropTypes.object.isRequired,
 };

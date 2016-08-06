@@ -25,3 +25,4 @@ standard-minifier-js@1.1.8
 gadicc:blaze-react-component
 materialize:materialize
 fourseven:scss
+react-meteor-data
