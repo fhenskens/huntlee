@@ -18,9 +18,6 @@ export default class Header extends React.Component {
           <ul id="nav-mobile" className="right hide-on-med-and-down">
             <li><a href="/lots">Lots</a></li>
           </ul>
-          <ul id="nav-mobile" className="right hide-on-med-and-down">
-            <li><a href="/tasks">Tasks</a></li>
-          </ul>
         </div>
       </nav>
     );

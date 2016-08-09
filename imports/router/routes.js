@@ -1,6 +1,7 @@
 import Home from '../ui/pages/Home.jsx';
 import NotFound from '../ui/pages/NotFound.jsx';
-import LotsView from '../ui/components/LotsView.jsx';
+import LotsViewContainer from '../ui/components/LotsView.jsx';
+import LotViewContainer from '../ui/components/LotView.jsx';
 
 const routes = [
   {
@@ -9,7 +10,15 @@ const routes = [
   },
   {
     path: '/lots',
-    component: LotsView
+    component: LotsViewContainer
+  },
+  {
+    path: '/lot',
+    component: LotViewContainer
+  },
+  {
+    path: '/lot/:id',
+    component: LotViewContainer
   },
   {
     path: '*',
