@@ -18,6 +18,12 @@ if ( Meteor.isServer) {
   Meteor.publish('lots', function () {
     return Lots.find({});
   });
+  Meteor.publish('labours', function () {
+    return Labours.find({});
+  });
+  Meteor.publish('materials', function () {
+    return Materials.find({});
+  });
 }
 
 Meteor.methods({
