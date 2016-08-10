@@ -2,6 +2,9 @@ import './User.js';
 import { Mongo } from 'meteor/mongo';
 
 export const Lots = new Mongo.Collection( 'lots', {} );
+export const Labours = new Mongo.Collection( 'labours', {} );
+export const Materials = new Mongo.Collection( 'materials', {} );
+export const Sundrys = new Mongo.Collection( 'sundrys', {} );
 
 Lots.allow({
   'insert': function (userId,doc) {
@@ -24,6 +27,22 @@ Meteor.methods({
       Lots.insert( lot );
     } else {
       Lots.update( { _id : id }, lot );
+    }
+  },
+  "labours.save"( id, labour ) {
+    labour.createdDate = new Date();
+    if ( id == null ) {
+      Labours.insert( labour );
+    } else {
+      Labours.update( { _id : id }, labour );
+    }
+  },
+  "materials.save"( id, material ) {
+    material.createdDate = new Date();
+    if ( id == null ) {
+      Materials.insert( material );
+    } else {
+      Materials.update( { _id : id }, material );
     }
   },
 });

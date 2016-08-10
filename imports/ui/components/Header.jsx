@@ -16,10 +16,13 @@ export default class Header extends React.Component {
             <li><a href="/">Home</a></li>
           </ul>
           <ul id="nav-mobile" className="right hide-on-med-and-down">
-            <li><a href="/admin">Admin</a></li>
+            <li><a href="/materialList">Materials</a></li>
           </ul>
           <ul id="nav-mobile" className="right hide-on-med-and-down">
-            <li><a href="/lots">Lots</a></li>
+            <li><a href="/labourList">Labour</a></li>
+          </ul>
+          <ul id="nav-mobile" className="right hide-on-med-and-down">
+            <li><a href="/lotList">Lots</a></li>
           </ul>
         </div>
       </nav>

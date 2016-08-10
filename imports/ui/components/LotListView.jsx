@@ -7,7 +7,7 @@ import { Lots } from '../../api/api.js';
 import LotListItem from './LotListItem.jsx';
 import LotView from './LotView.jsx';
 
-class LotsView extends Component {
+class LotListView extends Component {
   addLot() {
     browserHistory.push( "/lot/" );
   }
@@ -20,7 +20,7 @@ class LotsView extends Component {
 
   render() {
     return (
-      <div className={classNames('LotsView')}>
+      <div className={classNames('LotListView')}>
         <h1>View Lots</h1>
         <button onClick={this.addLot.bind( this )}>Add Lot</button>
         <ul className="collection">
@@ -31,15 +31,15 @@ class LotsView extends Component {
   }
 }
 
-LotsView.propTypes = {
+LotListView.propTypes = {
   lots: PropTypes.array.isRequired,
   lot: PropTypes.array,
 }
 
-export default LotsViewContainer = createContainer( () => {
+export default LotListViewContainer = createContainer( () => {
   Meteor.subscribe( "lots" );
   return {
     lots: Lots.find({}).fetch(),
     lot: null,
   }
-}, LotsView );
+}, LotListView );

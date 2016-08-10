@@ -1,8 +1,12 @@
 import Home from '../ui/pages/Home.jsx';
 import NotFound from '../ui/pages/NotFound.jsx';
 import AdminView from '../ui/components/AdminView.jsx';
-import LotsViewContainer from '../ui/components/LotsView.jsx';
+import LotListViewContainer from '../ui/components/LotListView.jsx';
 import LotViewContainer from '../ui/components/LotView.jsx';
+import LabourListViewContainer from '../ui/components/LabourListView.jsx';
+import LabourViewContainer from '../ui/components/LabourView.jsx';
+import MaterialListViewContainer from '../ui/components/MaterialListView.jsx';
+import MaterialViewContainer from '../ui/components/MaterialView.jsx';
 
 const routes = [
   {
@@ -10,8 +14,8 @@ const routes = [
     component: Home
   },
   {
-    path: '/lots',
-    component: LotsViewContainer
+    path: '/lotList',
+    component: LotListViewContainer
   },
   {
     path: '/lot',
@@ -20,6 +24,30 @@ const routes = [
   {
     path: '/lot/:id',
     component: LotViewContainer
+  },
+  {
+    path: '/labourList',
+    component: LabourListViewContainer
+  },
+  {
+    path: '/labour',
+    component: LabourViewContainer
+  },
+  {
+    path: '/labour/:id',
+    component: LabourViewContainer
+  },
+  {
+    path: '/materialList',
+    component: MaterialListViewContainer
+  },
+  {
+    path: '/material',
+    component: MaterialViewContainer
+  },
+  {
+    path: '/material/:id',
+    component: MaterialViewContainer
   },
   {
     path: '/admin',
