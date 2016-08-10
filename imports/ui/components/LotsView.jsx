@@ -14,7 +14,7 @@ class LotsView extends Component {
 
   renderLots() {
     return this.props.lots.map((lot) => (
-      <LotListItem key={lot.id} lot={lot}/>
+      <LotListItem key={lot._id} lot={lot}/>
     ));
   }
 

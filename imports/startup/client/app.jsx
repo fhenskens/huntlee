@@ -8,8 +8,6 @@ import { createHistory, useBasename } from 'history';
 import routes from '../../router/routes.js';
 import MainLayout from '../../ui/containers/MainLayout.jsx';
 
-export const __DEV__ = true;
-
 const rootRoute = {
   component: MainLayout,
   childRoutes: routes,
