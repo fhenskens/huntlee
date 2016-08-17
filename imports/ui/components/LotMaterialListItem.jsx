@@ -5,7 +5,7 @@ import { browserHistory } from 'react-router';
 export default class LotMaterialListItem extends Component {
   editLot()
   {
-    browserHistory.push( "/lot/" + this.props.lot._id );
+    browserHistory.push( "/lotMaterial/" + this.props.lotMaterial._id );
   }
 
   render() {
