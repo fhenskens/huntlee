@@ -33,13 +33,11 @@ class LotListView extends Component {
 
 LotListView.propTypes = {
   lots: PropTypes.array.isRequired,
-  lot: PropTypes.array,
 }
 
 export default LotListViewContainer = createContainer( () => {
   Meteor.subscribe( "lots" );
   return {
     lots: Lots.find({}).fetch(),
-    lot: null,
   }
 }, LotListView );

@@ -5,23 +5,15 @@ import { browserHistory } from 'react-router';
 export default class MaterialListItem extends Component {
   editMaterial()
   {
-    browserHistory.push( "/Material/" + this.props.Material._id );
+    browserHistory.push( "/material/" + this.props.billable._id );
   }
 
   render() {
     return (
       <li className="collection-item avatar">
-        <span className="title">Material {this.props.Material.MaterialNumber}</span>
-        <p className="details">
-          Status: {
-            this.props.dateCompleted != null?
-              "completed" :
-              this.props.dateCommenced != null?
-                "active" :
-                new Date( this.props.datePlanned ) > new Date()?
-                 "ovderdue" :
-                 "listed"
-            }
+        <span className="title">Material: {this.props.billable.name}</span>
+        <p className="details">Cost per meter: $
+          {this.props.billableRate.unitCost}
         </p>
         <a href="#!" className="secondary-content" onClick={this.editMaterial.bind(this)}>
           <i className="material-icons">modify</i>
@@ -32,5 +24,6 @@ export default class MaterialListItem extends Component {
 }
 
 MaterialListItem.propTypes = {
-  Material: PropTypes.object.isRequired,
+  billable: PropTypes.object.isRequired,
+  billableRate: PropTypes.object.isRequired,
 };

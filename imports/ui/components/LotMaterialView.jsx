@@ -6,11 +6,11 @@ import classNames from 'classnames';
 import { Meteor } from 'meteor/meteor';
 import { Billables, BillableRates } from '../../api/api.js';
 
-class LabourView extends Component {
+class LotMaterialView extends Component {
 
   cancel( event ) {
     event.preventDefault();
-    browserHistory.push( '/labourList' );
+    browserHistory.push( '/lot/' + this.props.lotMaterial.lotId );
   }
 
   componentDidMount() {
@@ -21,37 +21,37 @@ class LabourView extends Component {
 
   handleSubmit( event ) {
     event.preventDefault();
-    var labour = {};
-    labour['type'] = 'labour';
+    var lotMaterial = {};
+    lotMaterial['type'] = 'lotMaterial';
     Object.keys( this.refs )
       .forEach( (key) => {
-        labour[key] =
+        lotMaterial[key] =
           ReactDOM.findDOMNode( this.refs[key] )
             .value.trim(); } );
     Meteor.call(
       "billableRate.save",
-      this.props.labour._id,
-      this.props.labourRate._id,
-      labour );
-    browserHistory.push( '/labourList' );
+      this.props.lotMaterial._id,
+      this.props.lotMaterialRate._id,
+      lotMaterial );
+    browserHistory.push( '/lotMaterialList' );
   }
 
   render() {
     return (
-      <div className={classNames('LaboursView')}>
-        <h1>Labour Details</h1>
+      <div className={classNames('LotMaterialsView')}>
+        <h1>Fencing LotMaterial Details</h1>
         <div className="row">
           <button onClick={this.cancel.bind(this)}>Cancel</button>
         </div>
         <form className="col s12" onSubmit={this.handleSubmit.bind(this)}>
           <div className="row">
             <div className="input-field col s6">
-              <input ref="name" type="text" className="validate" defaultValue={this.props.labour.name}/>
-              <label htmlFor="labourNumber">Labour Role</label>
+              <input ref="name" type="text" className="validate" defaultValue={this.props.lotMaterial.name}/>
+              <label htmlFor="lotMaterialNumber">LotMaterial</label>
             </div>
             <div className="input-field col s6">
-              <input ref="unitCost" type="text" className="validate" defaultValue={this.props.labourRate == null? "" : this.props.labourRate.unitCost}/>
-              <label htmlFor="builderOwner">Hourly Rate</label>
+              <input ref="unitCost" type="text" className="validate" defaultValue={this.props.lotMaterialRate == null? "" : this.props.lotMaterialRate.unitCost}/>
+              <label htmlFor="builderOwner">Cost per Meter</label>
             </div>
           </div>
           <div className="row">
@@ -63,19 +63,19 @@ class LabourView extends Component {
   }
 }
 
-LabourView.propTypes = {
-  labour: PropTypes.object,
+LotMaterialView.propTypes = {
+  lotMaterial: PropTypes.object,
 };
 
-export default LabourViewContainer = createContainer( ({ params }) => {
+export default LotMaterialViewContainer = createContainer( ({ params }) => {
   Meteor.subscribe( "billables" );
   Meteor.subscribe( "billableRates" );
   return {
-    labour: params.id == null? {} : Billables.findOne({_id:params.id}),
-    labourRate: params.id == null?
+    lotMaterial: params.id == null? {} : Billables.findOne({_id:params.id}),
+    lotMaterialRate: params.id == null?
       {} :
       BillableRates.findOne({
         active:true,
         billableId:params.id })
   }
-}, LabourView );
+}, LotMaterialView );

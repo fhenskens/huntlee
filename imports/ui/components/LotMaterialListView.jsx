@@ -4,13 +4,13 @@ import { createContainer } from 'meteor/react-meteor-data';
 import classNames from 'classnames';
 
 import { Billables, BillableRates } from '../../api/api.js';
-import LabourListItem from './LabourListItem.jsx';
-import LabourView from './LabourView.jsx';
+import LotMaterialListItem from './LotMaterialListItem.jsx';
+import LotMaterialView from './LotMaterialView.jsx';
 
-class LabourListView extends Component {
+class LotMaterialListView extends Component {
 
-  addLabour() {
-    browserHistory.push( "/labour/" );
+  addLotMaterial() {
+    browserHistory.push( "/lotMaterial/" );
   }
 
   getBillableRate( billableId )
@@ -21,9 +21,9 @@ class LabourListView extends Component {
       });
   }
 
-  renderLabours() {
+  renderLotMaterials() {
     return this.props.billables.map((billable) => (
-      <LabourListItem
+      <LotMaterialListItem
         key={billable._id}
         billable={billable}
         billableRate={this.getBillableRate( billable._id )}/>
@@ -32,31 +32,33 @@ class LabourListView extends Component {
 
   render() {
     return (
-      <div className={classNames('LabourListView')}>
-        <h1>Labour Rates</h1>
-        <button onClick={this.addLabour.bind( this )}>Add Labour</button>
+      <div className={classNames('LotMaterialListView')}>
+        <h1>LotMaterial Rates</h1>
+        <button onClick={this.addLotMaterial.bind( this )}>Add LotMaterial</button>
         <ul className="collection">
-          {this.renderLabours()}
+          {this.renderLotMaterials()}
         </ul>
       </div>
     );
   }
 }
 
-LabourListView.propTypes = {
+LotMaterialListView.propTypes = {
   billables: PropTypes.array.isRequired,
   billableRates: PropTypes.array,
 }
 
-export default LabourListViewContainer = createContainer( () => {
+export default LotMaterialListViewContainer = createContainer( () => {
+  Meteor.subscribe( "lotBills" );
   Meteor.subscribe( "billables" );
   Meteor.subscribe( "billableRates" );
   return {
-    billables: Billables.find({type:'labour'}).fetch(),
+    lotBills: LotBills.find({lotId: this.props.lotId}).fetch(),
+    billables: Billables.find({type:'material'}).fetch(),
     billableRates:
       BillableRates.find({
-        type:'labour',
+        type:'material',
         active:true
       }).fetch(),
   }
-}, LabourListView );
+}, LotMaterialListView );

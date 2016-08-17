@@ -5,12 +5,13 @@ import { createContainer } from 'meteor/react-meteor-data';
 import classNames from 'classnames';
 import { Meteor } from 'meteor/meteor';
 import { Lots } from '../../api/api.js';
+import { LotMaterialListViewContainer } from './LotMaterialListView.jsx';
 
 class LotView extends Component {
 
   cancel( event ) {
     event.preventDefault();
-    browserHistory.push( '/lots' );
+    browserHistory.push( '/lotList' );
   }
 
   componentDidMount() {
@@ -19,16 +20,54 @@ class LotView extends Component {
     } );
   }
 
+  getFormValue( key )
+  {
+    var value =
+      ReactDOM.findDOMNode( this.refs[key] )
+        .value.trim();
+    if ( key.startsWith( "date" ) && value != "" )
+    {
+      value = new Date( value );
+    }
+    return value;
+  }
+
+  formatDate( d ) {
+    if ( d == null || typeof d === "string" )
+    {
+      return d;
+    }
+    var month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+    return [year, month, day].join('-');
+  }
+
+  renderMaterials()
+  {
+    if ( this.props.lot._id == null )
+    {
+      return;
+    }
+    return (
+      <div className="work">
+      </div>
+    );
+  }
+
   handleSubmit( event ) {
     event.preventDefault();
     var lot = {};
     Object.keys( this.refs )
       .forEach( (key) => {
-        lot[key] =
-          ReactDOM.findDOMNode( this.refs[key] )
-            .value.trim(); } );
-    Meteor.call( "lots.save", this.props.lot._id, lot );
-    browserHistory.push( '/lots' );
+        lot[key] = this.getFormValue( key );
+      } );
+    Meteor.call(
+      "lots.save",
+      this.props.lot._id, lot );
+    browserHistory.push( '/lotList' );
   }
 
   render() {
@@ -72,24 +111,41 @@ class LotView extends Component {
           <div className="row">
             <div className="col s3">
               <label>Date Received</label>
-              <input ref="dateReceived" type="date" className="datepicker" defaultValue={this.props.lot.dateReceived}/>
+              <input
+                ref="dateReceived"
+                type="date"
+                className="datepicker"
+                defaultValue={this.formatDate( this.props.lot.dateReceived )}/>
             </div>
             <div className="col s3">
               <label>Date Planned</label>
-              <input ref="datePlanned" type="date" className="datepicker" defaultValue={this.props.lot.datePlanned}/>
+              <input
+                ref="datePlanned"
+                type="date"
+                className="datepicker"
+                defaultValue={this.formatDate( this.props.lot.datePlanned )}/>
             </div>
             <div className="col s3">
               <label>Date Commenced</label>
-              <input ref="dateReceived" type="date" className="datepicker" defaultValue={this.props.lot.dateCommenced}/>
+              <input
+                ref="dateCommenced"
+                type="date"
+                className="datepicker"
+                defaultValue={this.formatDate( this.props.lot.dateCommenced )}/>
             </div>
             <div className="col s3">
               <label>Date Completed</label>
-              <input ref="dateReceived" type="date" className="datepicker" defaultValue={this.props.lot.dateCompleted}/>
-            </div>
-            <div className="row">
-              <input type="submit" value="Submit"/>
+              <input
+                ref="dateCompleted"
+                type="date"
+                className="datepicker"
+                defaultValue={this.formatDate( this.props.lot.dateCompleted )}/>
             </div>
           </div>
+          <div className="row">
+            <input type="submit" value="Save"/>
+          </div>
+          {this.renderMaterials()}
         </form>
       </div>
     );

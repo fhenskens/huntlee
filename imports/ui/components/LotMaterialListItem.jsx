@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { browserHistory } from 'react-router';
 
 
-export default class LotListItem extends Component {
+export default class LotMaterialListItem extends Component {
   editLot()
   {
     browserHistory.push( "/lot/" + this.props.lot._id );
@@ -11,14 +11,14 @@ export default class LotListItem extends Component {
   render() {
     return (
       <li className="collection-item avatar">
-        <span className="title">Lot {this.props.lot.lotNumber}</span>
+        <span className="title">Lot {this.props.lotMaterial.lotMaterialNumber}</span>
         <p className="details">
           Status: {
-            this.props.lot.dateCompleted != ""?
+            this.props.lotMaterial.dateCompleted != ""?
               "completed" :
-              this.props.lot.dateCommenced != ""?
+              this.props.lotMaterial.dateCommenced != ""?
                 "active" :
-                new Date( this.props.lot.datePlanned ) < new Date()?
+                new Date( this.props.lotMaterial.datePlanned ) < new Date()?
                  "overdue" :
                  "listed"
             }
@@ -31,6 +31,6 @@ export default class LotListItem extends Component {
   }
 }
 
-LotListItem.propTypes = {
-  lot: PropTypes.object.isRequired,
+LotMaterialListItem.propTypes = {
+  lotMaterial: PropTypes.object.isRequired,
 };
