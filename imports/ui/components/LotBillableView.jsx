@@ -39,7 +39,11 @@ class LotMaterialView extends Component {
   render() {
     return (
       <div className={classNames('LotMaterialsView')}>
-        <h1>Fencing LotMaterial Details</h1>
+        <h1>
+          {
+            this.props.type
+          }
+        </h1>
         <div className="row">
           <button onClick={this.cancel.bind(this)}>Cancel</button>
         </div>
@@ -64,18 +68,27 @@ class LotMaterialView extends Component {
 }
 
 LotMaterialView.propTypes = {
-  lotMaterial: PropTypes.object,
+  lotBillable: PropTypes.object,
+  type: PropTypes.string,
+  billables: PropTypes.array,
+  billableRates: PropTypes.array,
 };
 
-export default LotMaterialViewContainer = createContainer( ({ params }) => {
+export default LotMaterialViewContainer = createContainer( (params) => {
   Meteor.subscribe( "billables" );
   Meteor.subscribe( "billableRates" );
   return {
-    lotMaterial: params.id == null? {} : Billables.findOne({_id:params.id}),
-    lotMaterialRate: params.id == null?
-      {} :
-      BillableRates.findOne({
+    lotBillable:
+      params.id == null?
+        {} :
+        LotBills.find( {_id : params.id} ).fetch(),
+    billables:
+      Billables.find( {type: params.type} ).fetch(),
+    billableRates:
+      BillableRates.find(
+      {
         active:true,
-        billableId:params.id })
+        type: params.type,
+      }).fetch(),
   }
 }, LotMaterialView );

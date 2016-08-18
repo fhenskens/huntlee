@@ -7,6 +7,7 @@ import LabourListViewContainer from '../ui/components/LabourListView.jsx';
 import LabourViewContainer from '../ui/components/LabourView.jsx';
 import MaterialListViewContainer from '../ui/components/MaterialListView.jsx';
 import MaterialViewContainer from '../ui/components/MaterialView.jsx';
+import LotBillableViewContainer from '../ui/components/LotBillableView.jsx';
 
 const routes = [
   {
@@ -48,6 +49,14 @@ const routes = [
   {
     path: '/material/:id',
     component: MaterialViewContainer
+  },
+  {
+    path: '/lotBillable/:type',
+    component: LotBillableViewContainer
+  },
+  {
+    path: '/material/:type/:id',
+    component: LotBillableViewContainer
   },
   {
     path: '/admin',

@@ -32,5 +32,6 @@ export default class LotMaterialListItem extends Component {
 }
 
 LotMaterialListItem.propTypes = {
-  lotMaterial: PropTypes.object.isRequired,
+  lotBill: PropTypes.object.isRequired,
+  type: PropTypes.string.isRequired,
 };

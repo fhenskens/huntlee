@@ -5,7 +5,7 @@ import { createContainer } from 'meteor/react-meteor-data';
 import classNames from 'classnames';
 import { Meteor } from 'meteor/meteor';
 import { Lots } from '../../api/api.js';
-import { LotMaterialListViewContainer } from './LotMaterialListView.jsx';
+import LotBillableListView from './LotBillableListView.jsx';
 
 class LotView extends Component {
 
@@ -45,7 +45,7 @@ class LotView extends Component {
     return [year, month, day].join('-');
   }
 
-  renderMaterials()
+  renderCosts()
   {
     if ( this.props.lot._id == null )
     {
@@ -53,6 +53,9 @@ class LotView extends Component {
     }
     return (
       <div className="work">
+        <LotBillableListView type="material" lotId={this.props.lot._id}/>
+        <LotBillableListView type="labour" lotId={this.props.lot._id}/>
+        <LotBillableListView type="" lotId={this.props.lot._id}/>
       </div>
     );
   }
@@ -145,7 +148,7 @@ class LotView extends Component {
           <div className="row">
             <input type="submit" value="Save"/>
           </div>
-          {this.renderMaterials()}
+          {this.renderCosts()}
         </form>
       </div>
     );
