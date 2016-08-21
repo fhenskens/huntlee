@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/AdamBrodzinski/meteor-react-boilerplate",
   "dependencies": {
+    "bcrypt": "^0.8.7",
     "classnames": "^2.2.3",
     "history": "^2.1.0",
     "react": "^15.3.0",

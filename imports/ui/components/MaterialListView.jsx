@@ -33,7 +33,7 @@ class MaterialListView extends Component {
   render() {
     return (
       <div className={classNames('MaterialListView')}>
-        <h1>Fencing Material Costs</h1>
+        <h3>Fencing Material Costs</h3>
         <button onClick={this.addMaterial.bind( this )}>Add Material</button>
         <ul className="collection">
           {this.renderMaterials()}

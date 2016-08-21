@@ -33,7 +33,7 @@ class LabourListView extends Component {
   render() {
     return (
       <div className={classNames('LabourListView')}>
-        <h1>Labour Rates</h1>
+        <h3>Labour Rates</h3>
         <button onClick={this.addLabour.bind( this )}>Add Labour</button>
         <ul className="collection">
           {this.renderLabours()}

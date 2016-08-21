@@ -31,7 +31,7 @@ if ( Meteor.isServer) {
 }
 
 Meteor.methods({
-  "lots.save"( id, lot ) {
+  "lot.save"( id, lot ) {
     if ( id == null ) {
       lot.createdDate = new Date();
       return Lots.insert( lot );
@@ -42,9 +42,9 @@ Meteor.methods({
   "lotBill.save"( id, lotBill ) {
     if ( id == null ) {
       lotBill.createdDate = new Date();
-      return Lots.insert( lot );
+      return LotBills.insert( lotBill );
     } else {
-      return Lots.update( { _id: id }, lot );
+      return LotBills.update( { _id: id }, lotBill );
     }
   },
   "billableRate.save"( billableId, rateId, billableRate ) {
@@ -56,12 +56,22 @@ Meteor.methods({
       };
       billableId = Billables.insert( billable );
     }
+    else {
+      Billables.update(
+        { _id: billableId },
+        { $set:
+          { name: billableRate.name } } );
+    }
     if ( rateId != null )
     {
       var oldRate = BillableRates.find( {_id: rateId}).fetch();
+      if ( oldRate.rate == billableRate.rate )
+      {
+        return;
+      }
       oldRate['active'] = false;
       BillableRates.update(
-        {_id: rateId },
+        { _id: rateId },
         { $set:
           { active: false} } );
     }

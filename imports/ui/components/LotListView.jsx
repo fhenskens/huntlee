@@ -21,7 +21,7 @@ class LotListView extends Component {
   render() {
     return (
       <div className={classNames('LotListView')}>
-        <h1>View Lots</h1>
+        <h3>View Lots</h3>
         <button onClick={this.addLot.bind( this )}>Add Lot</button>
         <ul className="collection">
           {this.renderLots()}

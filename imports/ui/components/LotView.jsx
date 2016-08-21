@@ -5,7 +5,7 @@ import { createContainer } from 'meteor/react-meteor-data';
 import classNames from 'classnames';
 import { Meteor } from 'meteor/meteor';
 import { Lots } from '../../api/api.js';
-import LotBillableListView from './LotBillableListView.jsx';
+import LotBillListView from './LotBillListView.jsx';
 
 class LotView extends Component {
 
@@ -53,9 +53,9 @@ class LotView extends Component {
     }
     return (
       <div className="work">
-        <LotBillableListView type="material" lotId={this.props.lot._id}/>
-        <LotBillableListView type="labour" lotId={this.props.lot._id}/>
-        <LotBillableListView type="other" lotId={this.props.lot._id}/>
+        <LotBillListView type="material" lotId={this.props.lot._id}/>
+        <LotBillListView type="labour" lotId={this.props.lot._id}/>
+        <LotBillListView type="other" lotId={this.props.lot._id}/>
       </div>
     );
   }
@@ -68,15 +68,20 @@ class LotView extends Component {
         lot[key] = this.getFormValue( key );
       } );
     Meteor.call(
-      "lots.save",
-      this.props.lot._id, lot );
+      "lot.save",
+      this.props.lot._id,
+      lot );
     browserHistory.push( '/lotList' );
   }
 
   render() {
+    if ( !this.props.ready )
+    {
+      return ( <div>Loading...</div> );
+    }
     return (
       <div className={classNames('LotsView')}>
-        <h1>Lot Details</h1>
+        <h3>Lot Details</h3>
         <div className="row">
           <button onClick={this.cancel.bind(this)}>Cancel</button>
         </div>
@@ -160,8 +165,9 @@ LotView.propTypes = {
 };
 
 export default LotViewContainer = createContainer( ({ params }) => {
-  Meteor.subscribe( "lots" );
+  const lotSubscription = Meteor.subscribe( "lots" );
   return {
+    ready: lotSubscription.ready(),
     lot: params.id == null? {} : Lots.findOne({_id:params.id}),
   }
 }, LotView );

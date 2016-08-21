@@ -39,7 +39,7 @@ class LabourView extends Component {
   render() {
     return (
       <div className={classNames('LaboursView')}>
-        <h1>Labour Details</h1>
+        <h3>Labour Details</h3>
         <div className="row">
           <button onClick={this.cancel.bind(this)}>Cancel</button>
         </div>
