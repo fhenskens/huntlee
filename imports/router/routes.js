@@ -51,11 +51,11 @@ const routes = [
     component: MaterialViewContainer
   },
   {
-    path: '/lotBillable/:type',
+    path: '/lotBillable/:type/:lotId',
     component: LotBillableViewContainer
   },
   {
-    path: '/material/:type/:id',
+    path: '/lotBillable/:type/:lotId/:lotMaterialId',
     component: LotBillableViewContainer
   },
   {

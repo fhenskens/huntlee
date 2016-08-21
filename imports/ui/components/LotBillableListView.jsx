@@ -10,7 +10,11 @@ import LotBillableView from './LotBillableView.jsx';
 class LotBillableListView extends Component {
 
   addLotBillable() {
-    browserHistory.push( "/lotBillable/" + this.props.type );
+    browserHistory.push(
+      "/lotBillable/"
+        + this.props.type
+        + "/"
+        + this.props.lotId );
   }
 
   getBillableRate( billableId )
@@ -23,7 +27,9 @@ class LotBillableListView extends Component {
 
   renderLotBillables() {
     return this.props.lotBills.map((lotBill) => (
-      <LotBillableListItem lotBillId={lotBill._id} type="this.props.type"/>
+      <LotBillableListItem
+        lotBillId={lotBill._id}
+        type="this.props.type"/>
     ));
   }
 
@@ -49,6 +55,7 @@ class LotBillableListView extends Component {
 }
 
 LotBillableListView.propTypes = {
+  lotId: PropTypes.string.isRequired,
   lotBills: PropTypes.array.isRequired,
   type: PropTypes.string.isRequired,
 }
@@ -56,6 +63,7 @@ LotBillableListView.propTypes = {
 export default LotBillableListViewContainer = createContainer( (params) => {
   Meteor.subscribe( "lotBills" );
   return {
+    lotId: params.lotId,
     lotBills:
       LotBills.find(
         {

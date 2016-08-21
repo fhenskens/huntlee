@@ -55,7 +55,7 @@ class LotView extends Component {
       <div className="work">
         <LotBillableListView type="material" lotId={this.props.lot._id}/>
         <LotBillableListView type="labour" lotId={this.props.lot._id}/>
-        <LotBillableListView type="" lotId={this.props.lot._id}/>
+        <LotBillableListView type="other" lotId={this.props.lot._id}/>
       </div>
     );
   }

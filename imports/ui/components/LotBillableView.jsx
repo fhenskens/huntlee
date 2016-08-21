@@ -4,13 +4,15 @@ import ReactDOM from 'react-dom';
 import { createContainer } from 'meteor/react-meteor-data';
 import classNames from 'classnames';
 import { Meteor } from 'meteor/meteor';
-import { Billables, BillableRates } from '../../api/api.js';
+import { LotBills, Billables, BillableRates } from '../../api/api.js';
 
 class LotMaterialView extends Component {
 
   cancel( event ) {
     event.preventDefault();
-    browserHistory.push( '/lot/' + this.props.lotMaterial.lotId );
+    browserHistory.push(
+      '/lot/'
+        + this.props.lotBillable.lotId );
   }
 
   componentDidMount() {
@@ -19,21 +21,60 @@ class LotMaterialView extends Component {
     } );
   }
 
+  billableRateLabel() {
+    switch ( this.props.type ) {
+      case "labour":
+        return "Labour";
+      case "material":
+        return "Fence Run";
+      case "other":
+        return "Other Cost";
+    }
+  }
+
+  renderBillableRate() {
+    if ( this.billableRate == null )
+    {
+    } else {
+      return (
+        <div className="row">
+          <div className="input-field col s6">
+            <input
+              ref="billableRateId"
+              type="text"
+              className="validate"
+              value={this.props.billableRate.id}/>
+            <label htmlFor="billableRateId">{this.billableRateLabel()}</label>
+          </div>
+          <div className="input-field col s6">
+            <input
+              ref="unitCost"
+              type="text"
+              className="validate"
+              value={
+                this.props.billableRate.unitCost}/>
+            <label htmlFor="builderOwner">Cost per Meter</label>
+          </div>
+        </div>
+      );
+    }
+  }
+
   handleSubmit( event ) {
     event.preventDefault();
-    var lotMaterial = {};
-    lotMaterial['type'] = 'lotMaterial';
+    var lotBillable = {};
+    lotBillable['type'] = 'lotBillable';
     Object.keys( this.refs )
       .forEach( (key) => {
-        lotMaterial[key] =
+        lotBillable[key] =
           ReactDOM.findDOMNode( this.refs[key] )
             .value.trim(); } );
     Meteor.call(
-      "billableRate.save",
-      this.props.lotMaterial._id,
-      this.props.lotMaterialRate._id,
-      lotMaterial );
-    browserHistory.push( '/lotMaterialList' );
+      "lotBill.save",
+      this.props.lotBillable._id,
+      this.props.lotBillableRate._id,
+      lotBillable );
+    browserHistory.push( '/lotBillableList' );
   }
 
   render() {
@@ -45,19 +86,11 @@ class LotMaterialView extends Component {
           }
         </h1>
         <div className="row">
-          <button onClick={this.cancel.bind(this)}>Cancel</button>
+          <button
+            onClick={this.cancel.bind(this)}>Cancel</button>
         </div>
         <form className="col s12" onSubmit={this.handleSubmit.bind(this)}>
-          <div className="row">
-            <div className="input-field col s6">
-              <input ref="name" type="text" className="validate" defaultValue={this.props.lotMaterial.name}/>
-              <label htmlFor="lotMaterialNumber">LotMaterial</label>
-            </div>
-            <div className="input-field col s6">
-              <input ref="unitCost" type="text" className="validate" defaultValue={this.props.lotMaterialRate == null? "" : this.props.lotMaterialRate.unitCost}/>
-              <label htmlFor="builderOwner">Cost per Meter</label>
-            </div>
-          </div>
+          {renderBillableRate()}
           <div className="row">
             <input type="submit" value="Submit"/>
           </div>
@@ -68,20 +101,32 @@ class LotMaterialView extends Component {
 }
 
 LotMaterialView.propTypes = {
+  lotId: PropTypes.string,
   lotBillable: PropTypes.object,
+  billableRate: PropTypes.object,
   type: PropTypes.string,
   billables: PropTypes.array,
   billableRates: PropTypes.array,
 };
 
-export default LotMaterialViewContainer = createContainer( (params) => {
+export default LotMaterialViewContainer = createContainer( ({params}) => {
   Meteor.subscribe( "billables" );
   Meteor.subscribe( "billableRates" );
   return {
+    lotId: params.lotId,
     lotBillable:
-      params.id == null?
+      params.lotMaterialId == null?
         {} :
         LotBills.find( {_id : params.id} ).fetch(),
+    billableRate:
+      params.lotMaterialId == null?
+        {} :
+        BillableRates.find(
+          {
+            _id:
+              LotBills.find( {_id : params.id} )
+                .fetch().billableRateId,
+          } ).fetch(),
     billables:
       Billables.find( {type: params.type} ).fetch(),
     billableRates:
