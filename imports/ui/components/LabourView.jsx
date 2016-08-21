@@ -47,11 +47,11 @@ class LabourView extends Component {
           <div className="row">
             <div className="input-field col s6">
               <input ref="name" type="text" className="validate" defaultValue={this.props.labour.name}/>
-              <label htmlFor="labourNumber">Labour Role</label>
+              <label className="active" htmlFor="labourNumber">Labour Role</label>
             </div>
             <div className="input-field col s6">
               <input ref="unitCost" type="text" className="validate" defaultValue={this.props.labourRate == null? "" : this.props.labourRate.unitCost}/>
-              <label htmlFor="builderOwner">Hourly Rate</label>
+              <label className="active" htmlFor="builderOwner">Hourly Rate</label>
             </div>
           </div>
           <div className="row">

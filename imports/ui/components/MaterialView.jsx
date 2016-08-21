@@ -47,11 +47,11 @@ class MaterialView extends Component {
           <div className="row">
             <div className="input-field col s6">
               <input ref="name" type="text" className="validate" defaultValue={this.props.material.name}/>
-              <label htmlFor="materialNumber">Material</label>
+              <label className="active" htmlFor="materialNumber">Material</label>
             </div>
             <div className="input-field col s6">
               <input ref="unitCost" type="text" className="validate" defaultValue={this.props.materialRate == null? "" : this.props.materialRate.unitCost}/>
-              <label htmlFor="builderOwner">Cost per Meter</label>
+              <label className="active" htmlFor="builderOwner">Cost per Meter</label>
             </div>
           </div>
           <div className="row">

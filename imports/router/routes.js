@@ -55,7 +55,7 @@ const routes = [
     component: LotBillableViewContainer
   },
   {
-    path: '/lotBillable/:type/:lotId/:lotMaterialId',
+    path: '/lotBillable/:type/:lotId/:lotBillableId',
     component: LotBillableViewContainer
   },
   {

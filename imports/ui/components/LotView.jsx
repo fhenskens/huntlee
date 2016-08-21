@@ -84,36 +84,36 @@ class LotView extends Component {
           <div className="row">
             <div className="input-field col s6">
               <input ref="lotNumber" type="text" className="validate" defaultValue={this.props.lot.lotNumber}/>
-              <label htmlFor="lotNumber">Lot Number</label>
+              <label className="active" htmlFor="lotNumber">Lot Number</label>
             </div>
             <div className="input-field col s6">
               <input ref="builderOwner" type="text" className="validate" defaultValue={this.props.lot.builderOwner}/>
-              <label htmlFor="builderOwner">Builder/Owner</label>
+              <label className="active" htmlFor="builderOwner">Builder/Owner</label>
             </div>
           </div>
           <div className="row">
             <div className="input-field col s4">
               <input ref="contact" type="text" className="validate" defaultValue={this.props.lot.contact}/>
-              <label htmlFor="contact">Contact</label>
+              <label className="active" htmlFor="contact">Contact</label>
             </div>
             <div className="input-field col s4">
               <input ref="phone" type="text" className="validate" defaultValue={this.props.lot.phone}/>
-              <label htmlFor="phone">Phone</label>
+              <label className="active" htmlFor="phone">Phone</label>
             </div>
             <div className="input-field col s4">
               <input ref="email" type="text" className="validate" defaultValue={this.props.lot.email}/>
-              <label htmlFor="email">email</label>
+              <label className="active" htmlFor="email">email</label>
             </div>
           </div>
           <div className="row">
             <div className="col s12">
-              <label htmlFor="comments">Comments</label>
+              <label className="active" htmlFor="comments">Comments</label>
               <input ref="comments" type="text" className="validate" defaultValue={this.props.lot.comments}/>
             </div>
           </div>
           <div className="row">
             <div className="col s3">
-              <label>Date Received</label>
+              <label className="active">Date Received</label>
               <input
                 ref="dateReceived"
                 type="date"
@@ -121,7 +121,7 @@ class LotView extends Component {
                 defaultValue={this.formatDate( this.props.lot.dateReceived )}/>
             </div>
             <div className="col s3">
-              <label>Date Planned</label>
+              <label className="active">Date Planned</label>
               <input
                 ref="datePlanned"
                 type="date"
@@ -129,7 +129,7 @@ class LotView extends Component {
                 defaultValue={this.formatDate( this.props.lot.datePlanned )}/>
             </div>
             <div className="col s3">
-              <label>Date Commenced</label>
+              <label className="active">Date Commenced</label>
               <input
                 ref="dateCommenced"
                 type="date"
@@ -137,7 +137,7 @@ class LotView extends Component {
                 defaultValue={this.formatDate( this.props.lot.dateCommenced )}/>
             </div>
             <div className="col s3">
-              <label>Date Completed</label>
+              <label className="active">Date Completed</label>
               <input
                 ref="dateCompleted"
                 type="date"

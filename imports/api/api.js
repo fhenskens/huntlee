@@ -19,9 +19,6 @@ if ( Meteor.isServer) {
   Meteor.publish('lots', function () {
     return Lots.find({});
   });
-  Meteor.publish('sundryCosts', function () {
-    return SundryCosts.find({});
-  });
   Meteor.publish('billables', function () {
     return Billables.find({});
   });
