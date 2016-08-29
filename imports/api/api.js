@@ -33,7 +33,7 @@ if ( Meteor.isServer) {
 Meteor.methods({
   "lot.save"( id, lot ) {
     if ( id == null ) {
-      lot.createdDate = new Date();
+      lot['createdDate'] = new Date();
       return Lots.insert( lot );
     } else {
       return Lots.update( { _id: id }, lot );
@@ -41,18 +41,18 @@ Meteor.methods({
   },
   "lotBill.save"( id, lotBill ) {
     if ( id == null ) {
-      lotBill.createdDate = new Date();
+      lotBill['createdDate'] = new Date();
       return LotBills.insert( lotBill );
     } else {
       return LotBills.update( { _id: id }, lotBill );
     }
   },
   "billableRate.save"( billableId, rateId, billableRate ) {
-    if ( billableId == null )
-    {
+    if ( billableId == null ) {
       var billable = {
         name: billableRate.name,
-        type: billableRate.type
+        type: billableRate.type,
+        createdDate: new Date(),
       };
       billableId = Billables.insert( billable );
     }
@@ -62,11 +62,9 @@ Meteor.methods({
         { $set:
           { name: billableRate.name } } );
     }
-    if ( rateId != null )
-    {
+    if ( rateId != null ) {
       var oldRate = BillableRates.find( {_id: rateId}).fetch();
-      if ( oldRate.rate == billableRate.rate )
-      {
+      if ( oldRate.rate == billableRate.rate ) {
         return;
       }
       oldRate['active'] = false;
@@ -76,7 +74,7 @@ Meteor.methods({
           { active: false} } );
     }
     delete billableRate.name;
-    billableRate.createdDate = new Date();
+    billableRate['createdDate'] = new Date();
     billableRate['billableId'] = billableId;
     billableRate['active'] = true;
     return BillableRates.insert( billableRate );

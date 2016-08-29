@@ -58,14 +58,25 @@ class LotBillView extends Component {
     lotBill['total'] = quantity * unitCost;
     Object.keys( this.refs )
       .forEach( (key) => {
-        lotBill[key] =
-          ReactDOM.findDOMNode( this.refs[key] )
-            .value.trim(); } );
+        lotBill[key] = this.getFormValue( key );
+      } );
     Meteor.call(
       "lotBill.save",
       this.props.lotBill._id,
       lotBill );
     browserHistory.push( '/lot/' + this.props.lotId );
+  }
+
+  getFormValue( key )
+  {
+    var value =
+      ReactDOM.findDOMNode( this.refs[key] )
+        .value.trim();
+    if ( key.startsWith( "date" ) && value != "" )
+    {
+      value = new Date( value );
+    }
+    return value;
   }
 
   render() {

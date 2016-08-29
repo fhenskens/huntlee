@@ -1,7 +1,9 @@
 import React from 'react';
 import classNames from 'classnames';
+import { browserHistory } from 'react-router';
 
 function Home() {
+  browserHistory.push( "/lotList" );
   return (
     <div className={classNames('Home')} >
       <h1>Welcome to Lot Management</h1>

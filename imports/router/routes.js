@@ -8,6 +8,7 @@ import LabourViewContainer from '../ui/components/LabourView.jsx';
 import MaterialListViewContainer from '../ui/components/MaterialListView.jsx';
 import MaterialViewContainer from '../ui/components/MaterialView.jsx';
 import LotBillViewContainer from '../ui/components/LotBillView.jsx';
+import StatusReportViewContainer from '../ui/components/StatusReportView.jsx';
 
 const routes = [
   {
@@ -57,6 +58,10 @@ const routes = [
   {
     path: '/lotBill/:type/:lotId/:lotBillId',
     component: LotBillViewContainer
+  },
+  {
+    path: '/statusReport',
+    component: StatusReportViewContainer
   },
   {
     path: '/admin',
