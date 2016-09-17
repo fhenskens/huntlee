@@ -8,7 +8,7 @@ accounts-password@1.3.0
 accounts-ui@1.1.9
 meteor-base@1.0.4
 mobile-experience@1.0.4
-mongo@1.1.11
+mongo@1.1.12
 blaze-html-templates@1.0.4
 session@1.1.6
 jquery@1.11.9
@@ -27,4 +27,4 @@ materialize:materialize
 fourseven:scss
 react-meteor-data
 tmeasday:check-npm-versions
-shell-server
+shell-server@0.2.1
