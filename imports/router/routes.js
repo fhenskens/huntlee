@@ -9,6 +9,7 @@ import MaterialListViewContainer from '../ui/components/MaterialListView.jsx';
 import MaterialViewContainer from '../ui/components/MaterialView.jsx';
 import LotBillViewContainer from '../ui/components/LotBillView.jsx';
 import StatusReportViewContainer from '../ui/components/StatusReportView.jsx';
+import BillingReportViewContainer from '../ui/components/BillingReportView.jsx';
 
 const routes = [
   {
@@ -62,6 +63,10 @@ const routes = [
   {
     path: '/statusReport',
     component: StatusReportViewContainer
+  },
+  {
+    path: '/billingReport',
+    component: BillingReportViewContainer
   },
   {
     path: '/admin',

@@ -196,20 +196,12 @@ class LotBillView extends Component {
             </div>
             <div className="row">
               <div className="col s3">
-                <label className="active">Date Constructed</label>
+                <label className="active">Date Completed</label>
                 <input
-                  ref="dateConstructed"
+                  ref="dateCompleted"
                   type="date"
                   className="datepicker"
-                  defaultValue={this.formatDate( this.props.lotBill.dateConstructed )}/>
-              </div>
-              <div className="col s3">
-                <label className="active">Date Painted</label>
-                <input
-                  ref="datePainted"
-                  type="date"
-                  className="datepicker"
-                  defaultValue={this.formatDate( this.props.lotBill.datePainted )}/>
+                  defaultValue={this.formatDate( this.props.lotBill.dateCompleted )}/>
               </div>
             </div>
             <div className="row">
@@ -258,20 +250,12 @@ class LotBillView extends Component {
           </div>
           <div className="row">
             <div className="col s3">
-              <label className="active">Date Constructed</label>
-              <input
-                ref="dateConstructed"
-                type="date"
-                className="datepicker"
-                defaultValue={this.formatDate( this.props.lotBill.dateConstructed )}/>
-            </div>
-            <div className="col s3">
-              <label className="active">Date Painted</label>
+              <label className="active">Date Completed</label>
               <input
                 ref="datePainted"
                 type="date"
                 className="datepicker"
-                defaultValue={this.formatDate( this.props.lotBill.datePainted )}/>
+                defaultValue={this.formatDate( this.props.lotBill.dateCompleted )}/>
             </div>
           </div>
           <div className="row">
@@ -326,9 +310,17 @@ class LotBillView extends Component {
               </div>
             </div>
             <div className="row">
-              <div className="input-field col s12">
+              <div className="input-field col s9">
                 <input ref="description" type="text" className="validate" defaultValue={this.props.lotBill.description}/>
                 <label className="active" htmlFor="builderOwner">Description</label>
+              </div>
+              <div className="col s3">
+                <label className="active">Date Completed</label>
+                <input
+                  ref="datePainted"
+                  type="date"
+                  className="datepicker"
+                  defaultValue={this.formatDate( this.props.lotBill.dateCompleted )}/>
               </div>
             </div>
             <div className="row">
@@ -370,9 +362,17 @@ class LotBillView extends Component {
             </div>
           </div>
           <div className="row">
-            <div className="input-field col s12">
+            <div className="input-field col s9">
               <input ref="description" type="text" className="validate" defaultValue={this.props.lotBill.description}/>
               <label className="active" htmlFor="builderOwner">Description</label>
+            </div>
+            <div className="col s3">
+              <label className="active">Date Completed</label>
+              <input
+                ref="datePainted"
+                type="date"
+                className="datepicker"
+                defaultValue={this.formatDate( this.props.lotBill.dateCompleted )}/>
             </div>
           </div>
           <div className="row">
@@ -412,6 +412,16 @@ class LotBillView extends Component {
                 defaultValue={this.props.lotBill.total}
                 onChange={this.updateTotal.bind(this)}/>
               <label className="active" htmlFor="builderOwner">Cost</label>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col s3">
+              <label className="active">Date Completed</label>
+              <input
+                ref="dateCompleted"
+                type="date"
+                className="datepicker"
+                defaultValue={this.formatDate( this.props.lotBill.dateCompleted )}/>
             </div>
           </div>
           <div className="row">

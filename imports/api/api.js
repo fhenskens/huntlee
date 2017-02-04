@@ -36,7 +36,20 @@ Meteor.methods({
       lot['createdDate'] = new Date();
       return Lots.insert( lot );
     } else {
-      return Lots.update( { _id: id }, lot );
+      if ( lot.dateCompleted != null )
+      {
+        var lotBills = LotBills.find( { lotId: id } ).fetch();
+        if ( lotBills != null && lotBills.length > 0 )
+        lotBills.forEach( (lotBill) => {
+          if ( lotBill.dateCompleted == null || lotBill.dateCompleted == "" )
+          {
+            lotBill.dateCompleted = lot.dateCompleted;
+            LotBills.update( { _id: lotBill._id }, lotBill );
+          }
+        } );
+      }
+      Lots.update( { _id: id }, lot );
+      return id;
     }
   },
   "lotBill.save"( id, lotBill ) {
@@ -48,6 +61,8 @@ Meteor.methods({
     }
   },
   "billableRate.save"( billableId, rateId, billableRate ) {
+    console.log( billableRate );
+    billableRate.unitCost = billableRate.unitCost.replace( /[^\d\\.]+/, "" );
     if ( billableId == null ) {
       var billable = {
         name: billableRate.name,
@@ -64,7 +79,7 @@ Meteor.methods({
     }
     if ( rateId != null ) {
       var oldRate = BillableRates.find( {_id: rateId}).fetch();
-      if ( oldRate.rate == billableRate.rate ) {
+      if ( oldRate.rate == billableRate.unitCost ) {
         return;
       }
       oldRate['active'] = false;

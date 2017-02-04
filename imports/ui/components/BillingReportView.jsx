@@ -12,7 +12,7 @@ Status = {
   completed: { id: 3, name: "Completed" },
 }
 
-class StatusReportView extends Component {
+class BillingReportView extends Component {
   componentDidMount() {
     this.setState({
       startDate: "",
@@ -41,27 +41,12 @@ class StatusReportView extends Component {
 
   render() {
     return (
-      <div className={classNames('StatusReportView')}>
-        <h3>Status Report</h3>
+      <div className={classNames('BillingReportView')}>
+        <h3>Billing Report</h3>
         <div className="col s12">
           <div className="row">
-            <div className="input-field col s4">
-              <select
-                id="status"
-                ref="billableId"
-                className="validate browser-default"
-                defaultValue=""
-                onChange={this.updateStatus.bind(this)}>
-                <option value=""/>
-                <option value={Status.overdue.id}>Overdue</option>
-                <option value={Status.listed.id}>Listed</option>
-                <option value={Status.active.id}>Active</option>
-                <option value={Status.completed.id}>Completed</option>
-              </select>
-              <label className="active" htmlFor="billableId">Status</label>
-            </div>
             <div className="col s4">
-              <label className="active">Planned After</label>
+              <label className="active">Completed After</label>
               <input
                 id="startDate"
                 ref="startDate"
@@ -70,7 +55,7 @@ class StatusReportView extends Component {
                 className="datepicker"/>
             </div>
             <div className="col s4">
-              <label className="active">Planned Before</label>
+              <label className="active">Completed Before</label>
               <input
                 id="endDate"
                 ref="endDate"
@@ -84,21 +69,49 @@ class StatusReportView extends Component {
           <tbody>
             <tr>
               <th>Lot No.</th>
-              <th>Run</th>
+              <th>Description</th>
               <th>Type</th>
               <th>Length (m)</th>
               <th>Rate ($/m)</th>
-              <th>Status</th>
-              <th>Date Received</th>
-              <th>Date Planned</th>
-              <th>Date Commenced</th>
-              <th>Date Completed</th>
+              <th>Amount($)</th>
+              <th>Bill sent</th>
             </tr>
             {this.renderLotBills()}
           </tbody>
         </table>
       </div>
     );
+  }
+
+  renderBilled( lotBill ) {
+    var isBilled = lotBill.dateBilled != null && lotBill.dateBilled != "";
+    var name = lotBill._id + "_dateBilled";
+    return (
+      <td>
+        <input type="checkbox"
+               name={name}
+               id={name}
+               readOnly={true}
+               checked={isBilled}
+               onClick={this.toggleDateBilled.bind( this, lotBill )} />
+        <label htmlFor={name}>{this.formatDate( lotBill.dateBilled )}</label>
+      </td>
+    );
+  }
+
+  toggleDateBilled( lotBill ) {
+    if ( lotBill.dateBilled == null || lotBill.dateBilled == "" )
+    {
+      lotBill["dateBilled"] = new Date();
+    }
+    else
+    {
+      lotBill["dateBilled"] = null;
+    }
+    Meteor.call(
+      "lotBill.save",
+      lotBill._id,
+      lotBill );
   }
 
   renderLotBills() {
@@ -113,7 +126,7 @@ class StatusReportView extends Component {
     {
       startDate = new Date( startDate );
       lots = lots.filter( function ( lot ) {
-        return lot.datePlanned >= startDate;
+        return lot.dateCompleted >= startDate;
       } );
     }
     var endDate = this.state.endDate;
@@ -121,7 +134,7 @@ class StatusReportView extends Component {
     {
       endDate = new Date( endDate );
       lots = lots.filter( function ( lot ) {
-        return lot.datePlanned <= endDate;
+        return lot.dateCompleted <= endDate;
       } );
     }
     lots.forEach( function ( lot ) {
@@ -146,20 +159,10 @@ class StatusReportView extends Component {
       } );
       if ( matchingLot != null )
       {
-        matchingLot['willBeShown'] = true;
         lotBill['lot'] = matchingLot;
       }
       return matchingLot != null;
     } );
-    lots.filter( function( lot ) {
-      return lot.willBeShown == null;
-    } ).forEach( function( lot ) {
-      var lotBill = {
-        _id: lot._id,
-        lot: lot,
-      }
-      lotBills.push( lotBill );
-    } )
     lotBills = lotBills.sort( function( left, right ) {
       if ( left.lot.status != right.lot.status )
       {
@@ -176,79 +179,10 @@ class StatusReportView extends Component {
         <td>{lotBill.billableName}</td>
         <td>{lotBill.quantity}</td>
         <td>{lotBill.unitCost}</td>
-        <td>
-          {this.renderStatus( lotBill )}
-          {this.renderDateConstructed( lotBill )}
-          {this.renderDatePainted( lotBill )}
-        </td>
-        <td>{this.formatDate( lotBill.lot.dateReceived )}</td>
-        <td>{this.formatDate( lotBill.lot.datePlanned )}</td>
-        <td>{this.renderCommenced( lotBill )}</td>
-        <td>{this.renderCompleted( lotBill )}</td>
+        <td>{lotBill.total}</td>
+        {this.renderBilled( lotBill )}
       </tr>
     ) );
-  }
-
-  renderCommenced( lotBill ) {
-    var isCommenced = lotBill.dateCommenced != null && lotBill.dateCommenced != "";
-    var name = lotBill._id + "_dateCommenced";
-    return (
-      <td>
-        <input type="checkbox"
-               name={name}
-               id={name}
-               readOnly={true}
-               checked={isCommenced}
-               onClick={this.toggleDateCommenced.bind( this, lotBill )} />
-        <label htmlFor={name}>{this.formatDate( lotBill.dateCommenced )}</label>
-      </td>
-    );
-  }
-
-  toggleDateCommenced( lotBill ) {
-    if ( lotBill.dateCommenced == null || lotBill.dateCommenced == "" )
-    {
-      lotBill["dateCommenced"] = new Date();
-    }
-    else
-    {
-      lotBill["dateCommenced"] = null;
-    }
-    Meteor.call(
-      "lotBill.save",
-      lotBill._id,
-      lotBill );
-  }
-
-  renderCompleted( lotBill ) {
-    var isCompleted = lotBill.dateCompleted != null && lotBill.dateCompleted != "";
-    var name = lotBill._id + "_dateCompleted";
-    return (
-      <td>
-        <input type="checkbox"
-               name={name}
-               id={name}
-               readOnly={true}
-               checked={isCompleted}
-               onClick={this.toggleDateCompleted.bind( this, lotBill )} />
-        <label htmlFor={name}>{this.formatDate( lotBill.dateCompleted )}</label>
-      </td>
-    );
-  }
-
-  toggleDateCompleted( lotBill ) {
-    if ( lotBill.dateCompleted == null || lotBill.dateCompleted == "" )
-    {
-      lotBill["dateCompleted"] = new Date();
-    }
-    else
-    {
-      lotBill["dateCompleted"] = null;
-    }
-    Meteor.call(
-      "lotBill.save",
-      lotBill._id,
-      lotBill );
   }
 
   pad(n) {return n < 10 ? "0"+n : n;}
@@ -303,16 +237,16 @@ class StatusReportView extends Component {
 }
 
 
-StatusReportView.propTypes = {
+BillingReportView.propTypes = {
   lots: PropTypes.array,
   lotBills: PropTypes.array,
 }
 
-export default StatusReportViewContainer = createContainer( (params) => {
+export default BillingReportViewContainer = createContainer( (params) => {
   Meteor.subscribe( "lots" );
   Meteor.subscribe( "lotBills" );
   return {
     lots: Lots.find().fetch(),
-    lotBills: LotBills.find({type: 'material'}).fetch(),
+    lotBills: LotBills.find( { dateCompleted: {$ne: null}, dateCompleted: {$ne: ""} } ).fetch(),
   }
-}, StatusReportView );
+}, BillingReportView );

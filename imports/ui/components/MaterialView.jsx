@@ -45,11 +45,11 @@ class MaterialView extends Component {
         </div>
         <form className="col s12" onSubmit={this.handleSubmit.bind(this)}>
           <div className="row">
-            <div className="input-field col s6">
+            <div className="input-field col s4">
               <input ref="name" type="text" className="validate" defaultValue={this.props.material.name}/>
               <label className="active" htmlFor="materialNumber">Material</label>
             </div>
-            <div className="input-field col s6">
+            <div className="input-field col s4">
               <input ref="unitCost" type="text" className="validate" defaultValue={this.props.materialRate == null? "" : this.props.materialRate.unitCost}/>
               <label className="active" htmlFor="builderOwner">Cost per Meter</label>
             </div>

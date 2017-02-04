@@ -70,8 +70,11 @@ class LotView extends Component {
     Meteor.call(
       "lot.save",
       this.props.lot._id,
-      lot );
-    browserHistory.push( '/lotList' );
+      lot,
+      function( error, lotId ) {
+        browserHistory.push( '/lot/' + lotId );
+        Materialize.toast( "Lot Saved.", 3000 );
+      } );
   }
 
   render() {
