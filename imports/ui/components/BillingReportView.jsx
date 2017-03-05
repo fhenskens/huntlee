@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { browserHistory } from 'react-router';
 import { createContainer } from 'meteor/react-meteor-data';
+import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 
 import { Lots, LotBills } from '../../api/api.js';
@@ -74,6 +75,7 @@ class BillingReportView extends Component {
               <th>Length (m)</th>
               <th>Rate ($/m)</th>
               <th>Amount($)</th>
+              <th>Date Completed</th>
               <th>Bill sent</th>
             </tr>
             {this.renderLotBills()}
@@ -83,35 +85,50 @@ class BillingReportView extends Component {
     );
   }
 
-  renderBilled( lotBill ) {
-    var isBilled = lotBill.dateBilled != null && lotBill.dateBilled != "";
-    var name = lotBill._id + "_dateBilled";
-    return (
-      <td>
-        <input type="checkbox"
-               name={name}
-               id={name}
-               readOnly={true}
-               checked={isBilled}
-               onClick={this.toggleDateBilled.bind( this, lotBill )} />
-        <label htmlFor={name}>{this.formatDate( lotBill.dateBilled )}</label>
-      </td>
-    );
+  getFormValue( key )
+  {
+    var value =
+      ReactDOM.findDOMNode( this.refs[key] )
+        .value.trim();
+    if ( key.startsWith( "date" ) && value != "" )
+    {
+      value = new Date( value );
+    }
+    return value;
   }
 
-  toggleDateBilled( lotBill ) {
-    if ( lotBill.dateBilled == null || lotBill.dateBilled == "" )
-    {
-      lotBill["dateBilled"] = new Date();
-    }
-    else
-    {
-      lotBill["dateBilled"] = null;
-    }
+  saveLotBill( lotBill, name ) {
+    event.preventDefault();
+    lotBill[name] = this.getFormValue( lotBill._id + name );
     Meteor.call(
       "lotBill.save",
       lotBill._id,
       lotBill );
+  }
+
+  pad(n) {return n < 10 ? "0"+n : n;}
+  formatDate( d ) {
+    if ( d == null || typeof d === "string" )
+    {
+      return d;
+    }
+    var month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+    return [year, month, day].join('-');
+  }
+
+  renderDate( lotBill, name ) {
+    return (
+      <input
+        ref={lotBill._id + name}
+        type="date"
+        className="datepicker"
+        defaultValue={this.formatDate( lotBill[name] )}
+        onChange={this.saveLotBill.bind( this, lotBill, name )}/>
+    );
   }
 
   renderLotBills() {
@@ -174,30 +191,16 @@ class BillingReportView extends Component {
     } );
     return lotBills.map( (lotBill) => (
       <tr key={lotBill._id}>
-        <td>{lotBill.lot.lotNumber}</td>
+        <td><a href={"lot/" + lotBill.lot._id}>{lotBill.lot.lotNumber}</a></td>
         <td>{lotBill.description}</td>
         <td>{lotBill.billableName}</td>
         <td>{lotBill.quantity}</td>
         <td>{lotBill.unitCost}</td>
         <td>{lotBill.total}</td>
-        {this.renderBilled( lotBill )}
+        <td>{this.renderDate( lotBill, 'dateCompleted' )}</td>
+        <td>{this.renderDate( lotBill, 'dateBilled' )}</td>
       </tr>
     ) );
-  }
-
-  pad(n) {return n < 10 ? "0"+n : n;}
-  formatDate( dateObj ) {
-    if ( dateObj == null || dateObj == "" )
-    {
-      return "";
-    }
-    var formattedDate =
-      this.pad(dateObj.getDate())
-        + "/"
-        + this.pad(dateObj.getMonth()+1)
-        + "/"
-        + dateObj.getFullYear();
-    return formattedDate;
   }
 
   renderStatus( lotBill ) {
@@ -206,33 +209,6 @@ class BillingReportView extends Component {
         return status.id == lotBill.lot.status;
       }).name;
     return ( <div>{lotStatus}</div> );
-  }
-
-  renderDateConstructed( lotBill ) {
-    if ( lotBill.dateConstructed == null ||
-         lotBill.dateConstructed == "" ) {
-      return;
-    }
-    return (
-      <div>
-        Construct Billed {
-          this.formatDate( lotBill.dateConstructed )
-        }
-      </div>
-    );
-  }
-  renderDatePainted( lotBill ) {
-    if ( lotBill.datePainted == null ||
-         lotBill.datePainted == "" ) {
-      return;
-    }
-    return (
-      <div>
-        Paint Billed {
-          this.formatDate( lotBill.datePainted )
-        }
-      </div>
-    );
   }
 }
 

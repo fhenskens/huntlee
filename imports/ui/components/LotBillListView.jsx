@@ -35,7 +35,7 @@ class LotBillListView extends Component {
         <h5>
           {
             this.props.type == "other"?
-              "Other Costs" :
+              "Material Costs" :
               this.props.type == "material" ?
                 "Fence Runs" :
                 "Labour Costs"

@@ -39,7 +39,7 @@ class MaterialView extends Component {
   render() {
     return (
       <div className={classNames('MaterialsView')}>
-        <h3>Fencing Material Details</h3>
+        <h3>Fencing Type Details</h3>
         <div className="row">
           <button onClick={this.cancel.bind(this)}>Cancel</button>
         </div>

@@ -393,7 +393,7 @@ class LotBillView extends Component {
   {
     return (
       <div className={classNames('LotBillView')}>
-        <h3>Other Costs</h3>
+        <h3>Material Costs</h3>
         <div className="row">
           <button onClick={this.cancel.bind(this)}>Cancel</button>
         </div>
