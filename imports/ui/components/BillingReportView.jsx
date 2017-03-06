@@ -192,7 +192,7 @@ class BillingReportView extends Component {
     return lotBills.map( (lotBill) => (
       <tr key={lotBill._id}>
         <td><a href={"lot/" + lotBill.lot._id}>{lotBill.lot.lotNumber}</a></td>
-        <td>{lotBill.description}</td>
+        <td><a href={"/lotBill/" + lotBill.type + "/" + lotBill.lotId + "/" + lotBill._id}>{lotBill.description}</a></td>
         <td>{lotBill.billableName}</td>
         <td>{lotBill.quantity}</td>
         <td>{lotBill.unitCost}</td>

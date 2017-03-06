@@ -3,3 +3,5 @@ Billing Report filter:
  - billedDate: For finding billed items
  - need to be able to switch between the two - note: exclude billed items in completedDate search
  - Probs want a lot number filter, too?
+
+Add links to lot bills from bill description
