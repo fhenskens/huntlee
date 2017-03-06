@@ -41,7 +41,11 @@ class LabourView extends Component {
       <div className={classNames('LaboursView')}>
         <h3>Labour Details</h3>
         <div className="row">
-          <button onClick={this.cancel.bind(this)}>Cancel</button>
+          <div className="col s12">
+            <a href="#" onClick={ this.cancel.bind(this) }>
+              <i className="small material-icons">cancel</i>
+            </a>
+          </div>
         </div>
         <form className="col s12" onSubmit={this.handleSubmit.bind(this)}>
           <div className="row">
@@ -55,7 +59,9 @@ class LabourView extends Component {
             </div>
           </div>
           <div className="row">
-            <input type="submit" value="Submit"/>
+            <div className="col s12">
+              <button type="submit" className="btn waves-effect">Save</button>
+            </div>
           </div>
         </form>
       </div>

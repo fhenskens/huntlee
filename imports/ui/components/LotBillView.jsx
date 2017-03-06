@@ -145,6 +145,48 @@ class LotBillView extends Component {
     $("#total").text( "$" + unitCost * quantity );
   }
 
+  renderTopRow() {
+    return (
+      <div className="row">
+        <div className="col s11">
+          <a href="#" onClick={ this.cancel.bind(this) }>
+            <i className="small material-icons">cancel</i>
+          </a>
+        </div>
+        <div className="col s1">
+          <a href="#" onClick={ this.delete.bind( this ) }>
+            <i className="small material-icons">delete</i>
+          </a>
+        </div>
+      </div>
+      );
+  }
+
+  renderBottomRow() {
+    return (
+      <div className="row">
+        <div className="col s12">
+          <button type="submit" className="btn waves-effect">Save</button>
+        </div>
+      </div>
+      );
+  }
+
+  delete() {
+    event.preventDefault();
+    if ( !confirm( "Are you sure you want to delete this?" ) ) {
+      return;
+    }
+    var lotBill = this.props.lotBill;
+    Meteor.call(
+      "lotBill.delete",
+      lotBill._id,
+      function( error, lotId ) {
+        browserHistory.push( '/lot/' + lotBill.lotId );
+        Materialize.toast( "Deleted.", 3000 );
+      } );
+  }
+
   renderMaterialForm() {
     if ( this.props.lotBill._id == null )
     {
@@ -153,9 +195,7 @@ class LotBillView extends Component {
       return (
         <div className={classNames('LotBillView')}>
           <h3>Fence Run</h3>
-          <div className="row">
-            <button onClick={this.cancel.bind(this)}>Cancel</button>
-          </div>
+          {this.renderTopRow()}
           <form className="col s12" onSubmit={this.handleSubmit.bind(this)}>
             <div className="row">
               <div className="input-field col s6">
@@ -204,9 +244,7 @@ class LotBillView extends Component {
                   defaultValue={this.formatDate( this.props.lotBill.dateCompleted )}/>
               </div>
             </div>
-            <div className="row">
-              <input type="submit" value="Submit"/>
-            </div>
+            {this.renderBottomRow()}
           </form>
         </div>
       );
@@ -214,9 +252,7 @@ class LotBillView extends Component {
     return (
       <div className={classNames('LotBillView')}>
         <h3>Fence Run</h3>
-        <div className="row">
-          <button onClick={this.cancel.bind(this)}>Cancel</button>
-        </div>
+        {this.renderTopRow()}
         <form className="col s12" onSubmit={this.handleSubmit.bind(this)}>
           <div className="row">
             <div className="input-field col s6">
@@ -258,9 +294,7 @@ class LotBillView extends Component {
                 defaultValue={this.formatDate( this.props.lotBill.dateCompleted )}/>
             </div>
           </div>
-          <div className="row">
-            <input type="submit" value="Submit"/>
-          </div>
+          {this.renderBottomRow()}
         </form>
       </div>
     );
@@ -274,9 +308,7 @@ class LotBillView extends Component {
       return (
         <div className={classNames('LotBillView')}>
           <h3>Labour Cost</h3>
-          <div className="row">
-            <button onClick={this.cancel.bind(this)}>Cancel</button>
-          </div>
+          {this.renderTopRow()}
           <form className="col s12" onSubmit={this.handleSubmit.bind(this)}>
             <div className="row">
               <div className="input-field col s6">
@@ -323,9 +355,7 @@ class LotBillView extends Component {
                   defaultValue={this.formatDate( this.props.lotBill.dateCompleted )}/>
               </div>
             </div>
-            <div className="row">
-              <input type="submit" value="Submit"/>
-            </div>
+            {this.renderBottomRow()}
           </form>
         </div>
       );
@@ -333,9 +363,7 @@ class LotBillView extends Component {
     return (
       <div className={classNames('LotBillView')}>
         <h3>Labour Costs</h3>
-        <div className="row">
-          <button onClick={this.cancel.bind(this)}>Cancel</button>
-        </div>
+        {this.renderTopRow()}
         <form className="col s12" onSubmit={this.handleSubmit.bind(this)}>
           <div className="row">
             <div className="input-field col s6">
@@ -375,9 +403,7 @@ class LotBillView extends Component {
                 defaultValue={this.formatDate( this.props.lotBill.dateCompleted )}/>
             </div>
           </div>
-          <div className="row">
-            <input type="submit" value="Submit"/>
-          </div>
+          {this.renderBottomRow()}
         </form>
       </div>
     );
@@ -394,9 +420,7 @@ class LotBillView extends Component {
     return (
       <div className={classNames('LotBillView')}>
         <h3>Material Costs</h3>
-        <div className="row">
-          <button onClick={this.cancel.bind(this)}>Cancel</button>
-        </div>
+        {this.renderTopRow()}
         <form className="col s12" onSubmit={this.handleSubmit.bind(this)}>
           <div className="row">
             <div className="input-field col s10">
@@ -424,9 +448,7 @@ class LotBillView extends Component {
                 defaultValue={this.formatDate( this.props.lotBill.dateCompleted )}/>
             </div>
           </div>
-          <div className="row">
-            <input type="submit" value="Submit"/>
-          </div>
+          {this.renderBottomRow()}
         </form>
       </div>
     );

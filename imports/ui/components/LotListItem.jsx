@@ -24,7 +24,7 @@ export default class LotListItem extends Component {
             }
         </p>
         <a href="#!" className="secondary-content" onClick={this.editLot.bind(this)}>
-          <i className="material-icons">modify</i>
+          <i className="material-icons">mode_edit</i>
         </a>
       </li>
     );

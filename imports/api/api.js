@@ -52,6 +52,13 @@ Meteor.methods({
       return id;
     }
   },
+  "lot.delete"( id ) {
+    LotBills.remove( { lotId: id } );
+    Lots.remove( { _id: id } );
+  },
+  "lotBill.delete"( id ) {
+    LotBills.remove( { _id: id } );
+  },
   "lotBill.save"( id, lotBill ) {
     if ( id == null ) {
       lotBill['createdDate'] = new Date();
@@ -61,7 +68,6 @@ Meteor.methods({
     }
   },
   "billableRate.save"( billableId, rateId, billableRate ) {
-    console.log( billableRate );
     billableRate.unitCost = billableRate.unitCost.replace( /[^\d\\.]+/, "" );
     if ( billableId == null ) {
       var billable = {

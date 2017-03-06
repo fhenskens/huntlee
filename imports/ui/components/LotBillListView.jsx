@@ -41,7 +41,9 @@ class LotBillListView extends Component {
                 "Labour Costs"
           }
         </h5>
-        <button onClick={this.addLotBill.bind( this )}>Add</button>
+        <a className="waves-effect waves-light btrn" href="#" onClick={this.addLotBill.bind( this )}>
+          <i className="small material-icons">add</i>
+        </a>
         <ul className="collection">
           {this.renderLotBills()}
         </ul>

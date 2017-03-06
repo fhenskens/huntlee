@@ -16,7 +16,7 @@ export default class MaterialListItem extends Component {
           {this.props.billableRate.unitCost}
         </p>
         <a href="#!" className="secondary-content" onClick={this.editMaterial.bind(this)}>
-          <i className="material-icons">modify</i>
+          <i className="material-icons">mode_edit</i>
         </a>
       </li>
     );

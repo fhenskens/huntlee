@@ -34,7 +34,9 @@ class LabourListView extends Component {
     return (
       <div className={classNames('LabourListView')}>
         <h3>Labour Rates</h3>
-        <button onClick={this.addLabour.bind( this )}>Add Labour</button>
+        <a className="waves-effect waves-light btrn" href="#" onClick={this.addLabour.bind( this )}>
+          <i className="small material-icons">add</i>
+        </a>
         <ul className="collection">
           {this.renderLabours()}
         </ul>

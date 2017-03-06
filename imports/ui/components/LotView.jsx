@@ -78,15 +78,23 @@ class LotView extends Component {
   }
 
   render() {
-    if ( !this.props.ready )
-    {
+    if ( !this.props.ready ) {
       return ( <div>Loading...</div> );
     }
     return (
       <div className={classNames('LotsView')}>
         <h3>Lot Details</h3>
         <div className="row">
-          <button onClick={this.cancel.bind(this)}>Cancel</button>
+          <div className="col s11">
+            <a href="#" onClick={ this.cancel.bind(this) }>
+              <i className="small material-icons">cancel</i>
+            </a>
+          </div>
+          <div className="col s1">
+            <a href="#" onClick={ this.delete.bind( this ) }>
+              <i className="small material-icons">delete</i>
+            </a>
+          </div>
         </div>
         <form className="col s12" onSubmit={this.handleSubmit.bind(this)}>
           <div className="row">
@@ -154,12 +162,29 @@ class LotView extends Component {
             </div>
           </div>
           <div className="row">
-            <input type="submit" value="Save"/>
+            <div className="col s12">
+              <button type="submit" className="btn waves-effect">Save</button>
+            </div>
           </div>
           {this.renderCosts()}
         </form>
       </div>
     );
+  }
+
+  delete() {
+    event.preventDefault();
+    if ( !confirm( "Are you sure you want to delete this lot?" ) ) {
+      return;
+    }
+    var lot = this.props.lot;
+    Meteor.call(
+      "lot.delete",
+      lot._id,
+      function( error, lotId ) {
+        browserHistory.push( '/lotList' );
+        Materialize.toast( "Lot Deleted.", 3000 );
+      } );
   }
 }
 

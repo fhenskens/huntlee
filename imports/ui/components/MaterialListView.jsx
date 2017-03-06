@@ -34,7 +34,9 @@ class MaterialListView extends Component {
     return (
       <div className={classNames('MaterialListView')}>
         <h3>Fencing Type Costs</h3>
-        <button onClick={this.addMaterial.bind( this )}>Add Material</button>
+        <a className="waves-effect waves-light btrn" href="#" onClick={this.addMaterial.bind( this )}>
+          <i className="small material-icons">add</i>
+        </a>
         <ul className="collection">
           {this.renderMaterials()}
         </ul>

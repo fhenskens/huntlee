@@ -41,9 +41,13 @@ class MaterialView extends Component {
       <div className={classNames('MaterialsView')}>
         <h3>Fencing Type Details</h3>
         <div className="row">
-          <button onClick={this.cancel.bind(this)}>Cancel</button>
+          <div className="col s12">
+            <a href="#" onClick={ this.cancel.bind(this) }>
+              <i className="small material-icons">cancel</i>
+            </a>
+          </div>
         </div>
-        <form className="col s12" onSubmit={this.handleSubmit.bind(this)}>
+        <form id="mainForm" className="col s12" onSubmit={this.handleSubmit.bind(this)}>
           <div className="row">
             <div className="input-field col s4">
               <input ref="name" type="text" className="validate" defaultValue={this.props.material.name}/>
@@ -55,7 +59,9 @@ class MaterialView extends Component {
             </div>
           </div>
           <div className="row">
-            <input type="submit" value="Submit"/>
+            <div className="col s12">
+              <button type="submit" className="btn waves-effect">Save</button>
+            </div>
           </div>
         </form>
       </div>

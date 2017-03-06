@@ -67,12 +67,10 @@ class LotListView extends Component {
         return lot.status == status;
       } );
     }
-    console.log( this.state.searchText );
     if ( this.state.searchText != null )
     {
       var searchText = this.state.searchText.toLowerCase();
       lots = lots.filter( function ( lot ) {
-        console.log( lot );
         return lot.lotNumber.toLowerCase().includes( searchText );
       } );
     }
@@ -102,7 +100,9 @@ class LotListView extends Component {
             </div>
           </div>
         </div>
-        <button onClick={this.addLot.bind( this )}>Add Lot</button>
+        <a className="waves-effect waves-light btrn" href="#" onClick={this.addLot.bind( this )}>
+          <i className="small material-icons">add</i>
+        </a>
         <ul className="collection">
           {this.renderLots( lots )}
         </ul>

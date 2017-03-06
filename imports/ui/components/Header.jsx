@@ -19,7 +19,7 @@ export default class Header extends React.Component {
             <li><a href="/statusReport">Status Report</a></li>
           </ul>
           <ul id="nav-mobile" className="right hide-on-med-and-down">
-            <li><a href="/materialList">Materials</a></li>
+            <li><a href="/materialList">Fencing Types</a></li>
           </ul>
           <ul id="nav-mobile" className="right hide-on-med-and-down">
             <li><a href="/labourList">Labour</a></li>

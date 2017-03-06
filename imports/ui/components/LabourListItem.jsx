@@ -16,7 +16,7 @@ export default class LabourListItem extends Component {
           {this.props.billableRate.unitCost}
         </p>
         <a href="#!" className="secondary-content" onClick={this.editLabour.bind(this)}>
-          <i className="material-icons">modify</i>
+          <i className="material-icons">mode_edit</i>
         </a>
       </li>
     );
