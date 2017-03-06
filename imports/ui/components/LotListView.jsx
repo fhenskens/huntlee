@@ -93,11 +93,9 @@ class LotListView extends Component {
             </select>
             <label className="active" htmlFor="billableId">Status</label>
           </div>
-          <div className="col s4">
-            <div className="input-field col s6">
-              <input ref="lotNumber" id="lotNumber" type="text" onChange={this.updateSearchText.bind(this)} />
-              <label className="active" htmlFor="lotNumber">Lot Number</label>
-            </div>
+          <div className="input-field col s2">
+            <input ref="lotNumber" id="lotNumber" type="text" onChange={this.updateSearchText.bind(this)} />
+            <label className="active" htmlFor="lotNumber">Lot Number</label>
           </div>
         </div>
         <a className="waves-effect waves-light btrn" href="#" onClick={this.addLot.bind( this )}>

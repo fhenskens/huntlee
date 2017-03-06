@@ -46,8 +46,21 @@ class BillingReportView extends Component {
         <h3>Billing Report</h3>
         <div className="col s12">
           <div className="row">
+            <div className="input-field col s2">
+              <select
+                id="dateType"
+                ref="dateType"
+                className="validate browser-default"
+                defaultValue=""
+                onChange={this.updateDateType.bind(this)}>
+                <option value=""/>
+                <option value="dateCompleted">Completed</option>
+                <option value="dateBilled">Bill Sent</option>
+              </select>
+              <label className="active" htmlFor="dateType">Date Filter Type</label>
+            </div>
             <div className="col s4">
-              <label className="active">Completed After</label>
+              <label className="active">Date After</label>
               <input
                 id="startDate"
                 ref="startDate"
@@ -56,13 +69,17 @@ class BillingReportView extends Component {
                 className="datepicker"/>
             </div>
             <div className="col s4">
-              <label className="active">Completed Before</label>
+              <label className="active">Date Before</label>
               <input
                 id="endDate"
                 ref="endDate"
                 onChange={this.updateEndDate.bind(this)}
                 type="date"
                 className="datepicker"/>
+            </div>
+            <div className="input-field col s2">
+              <input ref="lotNumber" id="lotNumber" type="text" onChange={this.updateSearchText.bind(this)} />
+              <label className="active" htmlFor="lotNumber">Lot Number</label>
             </div>
           </div>
         </div>
@@ -83,6 +100,18 @@ class BillingReportView extends Component {
         </table>
       </div>
     );
+  }
+
+  updateDateType() {
+    this.setState( {
+      dateType: $("#dateType").val()
+    });
+  }
+
+  updateSearchText() {
+    this.setState( {
+      searchText: $("#lotNumber").val()
+    });
   }
 
   getFormValue( key )
@@ -138,22 +167,6 @@ class BillingReportView extends Component {
       return;
     }
     var status = this.state.status;
-    var startDate = this.state.startDate;
-    if ( startDate != "" )
-    {
-      startDate = new Date( startDate );
-      lots = lots.filter( function ( lot ) {
-        return lot.dateCompleted >= startDate;
-      } );
-    }
-    var endDate = this.state.endDate;
-    if ( endDate != "" )
-    {
-      endDate = new Date( endDate );
-      lots = lots.filter( function ( lot ) {
-        return lot.dateCompleted <= endDate;
-      } );
-    }
     lots.forEach( function ( lot ) {
       lot['status'] =
         lot.dateCompleted != ""?
@@ -170,6 +183,13 @@ class BillingReportView extends Component {
          return lot.status == status;
       } );
     }
+    if ( this.state.searchText != null )
+    {
+      var searchText = this.state.searchText.toLowerCase();
+      lots = lots.filter( function ( lot ) {
+        return lot.lotNumber.toLowerCase().includes( searchText );
+      } );
+    }
     var lotBills = this.props.lotBills.filter( function (lotBill) {
       var matchingLot = lots.find( function (lot) {
         return lot._id == lotBill.lotId;
@@ -180,6 +200,39 @@ class BillingReportView extends Component {
       }
       return matchingLot != null;
     } );
+    var dateType = this.state.dateType;
+    if ( dateType != null )
+    {
+      if ( dateType == "dateCompleted" )
+      {
+        lotBills = lotBills.filter( function ( lotBill ) {
+          return lotBill["dateCompleted"] != null &&
+            lotBill["dateBilled"] == null;
+        } );
+      }
+      else if ( dateType == "dateBilled")
+      {
+        lotBills = lotBills.filter( function ( lotBill ) {
+        return lotBill["dateBilled"] != null;
+        } );
+      }
+      var startDate = this.state.startDate;
+      if ( startDate != "" )
+      {
+        startDate = new Date( startDate );
+        lotBills = lotBills.filter( function ( lotBill ) {
+          return lotBill[dateType] >= startDate;
+        } );
+      }
+      var endDate = this.state.endDate;
+      if ( endDate != "" )
+      {
+        endDate = new Date( endDate );
+        lotBills = lotBills.filter( function ( lotBill ) {
+          return lotBill[dateType] <= endDate;
+        } );
+      }
+    }
     lotBills = lotBills.sort( function( left, right ) {
       if ( left.lot.status != right.lot.status )
       {
