@@ -41,6 +41,12 @@ class BillingReportView extends Component {
   }
 
   render() {
+    if ( this == null || this.state == null )
+    {
+      return (<p>Loading...</p>);
+    }
+    var lotBills = this.filterLotBills();
+    console.log(lotBills);
     return (
       <div className={classNames('BillingReportView')}>
         <h3>Billing Report</h3>
@@ -95,7 +101,8 @@ class BillingReportView extends Component {
               <th>Date Completed</th>
               <th>Bill sent</th>
             </tr>
-            {this.renderLotBills()}
+            {this.renderLotBills( lotBills )}
+            {this.renderTotals( lotBills )}
           </tbody>
         </table>
       </div>
@@ -160,12 +167,8 @@ class BillingReportView extends Component {
     );
   }
 
-  renderLotBills() {
+  filterLotBills() {
     var lots = this.props.lots;
-    if ( this.state == null )
-    {
-      return;
-    }
     var status = this.state.status;
     lots.forEach( function ( lot ) {
       lot['status'] =
@@ -242,6 +245,10 @@ class BillingReportView extends Component {
       var b = right.lot.lotNumber;
       return (a<b?-1:(a>b?1:0));
     } );
+    return lotBills;
+  }
+
+  renderLotBills( lotBills ) {
     return lotBills.map( (lotBill) => (
       <tr key={lotBill._id}>
         <td><a href={"lot/" + lotBill.lot._id}>{lotBill.lot.lotNumber}</a></td>
@@ -254,6 +261,18 @@ class BillingReportView extends Component {
         <td>{this.renderDate( lotBill, 'dateBilled' )}</td>
       </tr>
     ) );
+  }
+
+  renderTotals( lotBills ) {
+    return (
+      <tr key="total">
+        <td colSpan="2"/>
+        <td><b>Total</b></td>
+        <td colSpan="2"/>
+        <td>{lotBills.map(lotBill => lotBill.total).reduce((a,b) => Number(a) + Number(b), 0)}</td>
+        <td colSpan="2"/>
+      </tr>
+    )
   }
 
   renderStatus( lotBill ) {
