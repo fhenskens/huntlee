@@ -269,7 +269,7 @@ class BillingReportView extends Component {
         <td colSpan="2"/>
         <td><b>Total</b></td>
         <td colSpan="2"/>
-        <td>{lotBills.map(lotBill => lotBill.total).reduce((a,b) => Number(a) + Number(b), 0)}</td>
+        <td>{Number(Math.round(lotBills.map(lotBill => lotBill.total).reduce((a,b) => Number(a) + Number(b), 0)+'e'+2)+'e-'+2)}</td>
         <td colSpan="2"/>
       </tr>
     )
